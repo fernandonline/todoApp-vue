@@ -5,23 +5,15 @@ import TodoEmpty from './components/TodoEmpty.vue';
 import TodoForm from './components/TodoForm.vue';
 import TodoItems from './components/TodoItems.vue';
 import TodoSpinner from './components/TodoSpinner.vue';
-import axios from 'axios';
-
-
 
 const store = useStore()
 const loading = ref(false)
 
 onMounted(async () => {
   loading.value = true
-  try {
-    const response = await axios.get('http://localhost:3000/todos')
-    store.commit('storeTodos', response.data)
-  } catch (error) {
-    console.error('Erro ao buscar todos:', error)
-  } finally {
-    loading.value = false
-  }
+  store.dispatch('getTodos').finally(() => {
+    loading.value = false;
+  })
 })
 
 </script>
